@@ -1,0 +1,37 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2005 Novell/SUSE
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+
+#include <tunables/global>
+
+/usr/sbin/vsftpd {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/authentication>
+
+  capability setgid,
+  capability setuid,
+  capability sys_chroot,
+  capability sys_admin,
+
+  /dev/urandom               r,
+  /etc/fstab                 r,
+  /etc/hosts.allow           r,
+  /etc/hosts.deny            r,
+  /etc/mtab                  r,
+  /etc/shells	             r,
+  /etc/vsftpd.*              r,
+  /etc/vsftpd/*              r,
+  /etc/ftpusers              r,
+  /usr/sbin/vsftpd	     rmix,
+  /var/log/vsftpd.log        kw,
+  /var/log/xferlog           kw,
+  @{HOMEDIRS}                rl,
+  @{HOME}/**                 rwlk,
+}
